@@ -33,6 +33,10 @@ Student.init({
         type: DataTypes.DATE,
         allowNull: true
     },
+    course: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     enrollmentDate: {
         type: DataTypes.DATE,
         allowNull: true

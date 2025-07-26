@@ -1,5 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/sequelize.js';
+import Course from './courseModel.js';
 
 class Student extends Model {}
 
@@ -33,19 +34,20 @@ Student.init({
         type: DataTypes.DATE,
         allowNull: true
     },
-    course: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     enrollmentDate: {
         type: DataTypes.DATE,
         allowNull: true
     }
 }, {
     sequelize, 
-    modelName: 'Student',
+    modelName: 'Students',
     tableName: 'students',
     timestamps: true,
 });
+
+
+// Relationships
+Student.belongsTo(Course, { through: 'StudentCourses' });
+Course.belongsToMany(Student, { through: 'StudentCourses' });
 
 export default Student;

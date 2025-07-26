@@ -1,0 +1,12 @@
+#ignore file for the Learning Management System project
+# This file is used to ignore files and directories in the project
+
+
+# Ignore node_modules directory
+node_modules/
+# Ignore environment variables file
+.env
+# Ignore logs directory
+logs/
+# Ignore IDE specific files
+.vscode/

@@ -1,0 +1,34 @@
+{
+    "Courses": {
+        "General Arts": {
+            "Core": [
+                "Core Mathematics", "Integrated Science", "English Language", "Social Studies"
+            ],
+            "Electives": ["Literature in English", "Economics", "Government", "History", "Geography", "Elective Mathematics", "Christian Religious Studies", "French", "Information, Communication and Technology"]
+        },
+        "Business": {
+            "Core": [
+                "Core Mathematics", "Integrated Science", "English Language", "Social Studies"
+            ],
+            "Electives": ["Economics", "Elective Mathematics"]
+        },
+        "Science": {
+            "Core": [
+                "Core Mathematics", "Integrated Science", "English Language", "Social Studies"
+            ],
+            "Electives": ["Elective Mathematics", "Physics", "Biology", "Chemistry", "Agriculture", "Geography"]
+        },
+        "Visual Art": {
+            "Core": [
+                "Core Mathematics", "Integrated Science", "English Language", "Social Studies"
+            ],
+            "Electives": []
+        },
+        "Home Economics": {
+            "Core": [
+                "Core Mathematics", "Integrated Science", "English Language", "Social Studies"
+            ],
+            "Electives": ["Chemistry", "Food"]
+        }
+    }
+}

@@ -26,9 +26,17 @@ Student.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: true,
+    },
+    gender: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
     dateOfBirth: {
         type: DataTypes.DATE,

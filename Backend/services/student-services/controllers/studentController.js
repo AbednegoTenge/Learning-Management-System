@@ -3,6 +3,7 @@ import Student from '../../../models/studentModel.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import redisClient from '../../../config/redis.js';
+import { generateAccessToken, generateRefreshToken } from '../../utils/token.js';
 
 const authController = {
     async register(req, res) {
@@ -66,19 +67,21 @@ const authController = {
             if (!isPasswordValid) {
                 return res.status(401).json({ message: 'Invalid Credentials' });
             }
+            // Generate access and refresh tokens
+            const accessToken = generateAccessToken({ id: student.id, email: student.email });
+            const refreshToken = generateRefreshToken({ id: student.id, email: student.email });
 
-            // Generate token
-            const token = jwt.sign({ id: student.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-            // Generate refresh token
-            const refreshToken = jwt.sign({ id: student.id }, process.env.JWT_SECRET_REFRESH, { expiresIn: '7d' });
+            const decoded = jwt.decode(refreshToken);
+            const expiresAt = decoded.exp;
+            const currentTime = Math.floor(Date.now() / 1000);
+            const ttl = expiresAt - currentTime;
 
             // Optionally store refresh token in Redis
-            await redisClient.set(`refresh_token:${student.id}`, refreshToken, 'EX', 604800); // 7 days expiry in Redis
+            await redisClient.set(`refresh_token:${student.id}`, refreshToken, 'EX', ttl > 0 ? ttl : 0);
 
             // Set tokens as cookies
-            res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 3600000 });
-            res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 604800000 }); // 7 days
+            res.cookie('token', accessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 3600000 });
+            res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 2592000000 }); // 30 days
 
             dblogger.info(`Student logged in: Email: ${student.email}`);
         } catch (error) {

@@ -7,20 +7,8 @@ class Student extends Model {}
 Student.init({
     id: {
         type: DataTypes.INTEGER,
-        primarykey: true,
+        primaryKey: true,
         autoIncrement: true
-    },
-    firstName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    middleName: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    lastName: {
-        type: DataTypes.STRING,
-        allowNull: false
     },
     name: {
         type: DataTypes.STRING,
@@ -28,19 +16,22 @@ Student.init({
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            len: [6, 100] // Password must be between 6 and 100 characters
+        }
     },
     email: {
         type: DataTypes.STRING,
         allowNull: true,
+        validate: {
+            isEmail: true // Validate that the email is in a correct format
+        }
     },
-    gender: {
+    role: {
         type: DataTypes.STRING,
-        allowNull: true
-    },
-    dateOfBirth: {
-        type: DataTypes.DATE,
-        allowNull: true
+        allowNull: false,
+        defaultValue: 'student' // Default role is 'student'
     },
     enrollmentDate: {
         type: DataTypes.DATE,

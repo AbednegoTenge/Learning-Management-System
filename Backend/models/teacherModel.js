@@ -9,33 +9,32 @@ Teacher.init({
         primaryKey: true,
         autoIncrement: true
     },
-    firstName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    middleName: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    lastName: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    subject: {
+    password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            len: [6, 100] // Password must be between 6 and 100 characters
+        }
     },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+            isEmail: true
+        }
     },
-    dateOfBirth: {
-        type: DataTypes.DATE,
-        allowNull: true
+    subject: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'teacher' // Default role is 'teacher'
     },
     hireDate: {
         type: DataTypes.DATE,

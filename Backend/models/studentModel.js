@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/sequelize.js';
-import Course from './courseModel.js';
+import studentCourse from './studentCourseModels.js';
 
 class Student extends Model {}
 
@@ -46,7 +46,13 @@ Student.init({
 
 
 // Relationships
-Student.belongsTo(Course, { through: 'StudentCourses' });
-Course.belongsToMany(Student, { through: 'StudentCourses' });
+Student.hasOne(studentCourse, {
+    foreignKey: 'studentId',
+});
+
+studentCourse.belongsTo(Student, {
+    foreignKey: 'studentId',
+});
+
 
 export default Student;

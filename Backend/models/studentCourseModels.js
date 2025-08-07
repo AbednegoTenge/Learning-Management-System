@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/sequelize'; 
+import sequelize from '../config/sequelize.js'; 
 
 class StudentCourse extends Model {}
 
@@ -7,7 +7,7 @@ StudentCourse.init({
   studentId: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'Students',
+      model: 'students',
       key: 'id',
     },
     allowNull: false,
@@ -15,7 +15,7 @@ StudentCourse.init({
   courseId: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'Courses',
+      model: 'courses',
       key: 'id',
     },
     allowNull: false,

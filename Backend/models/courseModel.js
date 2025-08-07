@@ -1,12 +1,13 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/sequelize.js';
+import StudentCourse from './studentCourseModels.js';
 
 class Course extends Model {}
 
 Course.init({
     id: {
         type: DataTypes.INTEGER,
-        primarykey: true,
+        primaryKey: true,
         autoIncrement: true
     },
     name: {
@@ -16,7 +17,16 @@ Course.init({
 }, {
     sequelize,
     modelName: 'Courses',
-    tableName: 'course'
+    tableName: 'courses'
 });
+
+Course.hasMany(StudentCourse, {
+    foreignKey: 'courseId',
+});
+
+StudentCourse.belongsTo(Course, {
+    foreignKey: 'courseId',
+});
+
 
 export default Course;

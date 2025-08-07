@@ -1,4 +1,4 @@
-import { dblogger } from '../config/logger.js';
+import { dblogger } from '../logger.js';
 import Student from '../models/studentModel.js';
 import Teacher from '../models/teacherModel.js';
 import jwt from 'jsonwebtoken';
@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 import redisClient from '../config/redis.js';
 import { generateAccessToken, generateRefreshToken } from '../../utils/token.js';
 
-const getModelByRole = (role) => {
+export const getModelByRole = (role) => {
     switch (role) {
         case 'student':
             return Student;
@@ -37,7 +37,9 @@ const authController = {
                 password: hashedPassword
             });
             dblogger.info(`New ${role} registered: Email: ${newUser.email}`);
-            return res.status(201).json({ message: `${role} registered successfully`, user: newUser });
+            // remove password from response
+            const { password: _, ...userDetails } = newUser.get({ plain: true });
+            return res.status(201).json({ message: `${role} registered successfully`, user: userDetails });
         } catch (error) {
             res.status(500).json({ message: 'Something went wrong' });
             dblogger.error(`Error during user registration: ${error.message}`, { stack: error.stack });
@@ -79,6 +81,9 @@ const authController = {
             res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 2592000000 }); // 30 days
 
             dblogger.info(`User logged in: Email: ${user.email}`);
+            // remove password from response
+            const { password: _, ...userDetails } = user.get({ plain: true });
+            return res.status(200).json({ message: 'Logged in successfully', user: userDetails });
         } catch (error) {
             res.status(500).json({ message: 'Something went wrong' });
             dblogger.error(`Error during user login: ${error.message}`, { stack: error.stack });
